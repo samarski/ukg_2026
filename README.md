@@ -1,6 +1,6 @@
 # Uvod u kompjutersku geometriju 2025/2026. god.
+Univerzitet u Sarajevu, Prirodno-matematički fakultet\
 Laboratorijske vježbe iz Uvoda u kompjutersku geometriju\
-Univerzitet u Sarajevu, Prirodno-matematički fakultet
 Akademska godina 2025/2026. godina
 
 * Vježbe 1 - osnovno snalaženje sa C++ Builderom
