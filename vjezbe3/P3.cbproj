@@ -7,10 +7,9 @@
         <MainSource>P3.cpp</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">P3</ProjectName>
         <TargetedPlatforms>1048579</TargetedPlatforms>
-        <CC_Suffix Condition="'$(CC_Suffix)'==''">c</CC_Suffix>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -88,7 +87,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
-        <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;dbrtl.lib;vcldb.lib;vclwinx.lib;vclimg.lib;bindengine.lib;dsnap.lib</AllPackageLibs>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <Multithreaded>true</Multithreaded>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -160,6 +159,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;dbrtl.bpi;vcldb.bpi;vclwinx.bpi;vclimg.bpi;bindengine.bpi;dsnap.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -199,8 +199,12 @@
             <DependentOn>U_Grafika.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <FormResources Include="u_glavna.dfm"/>
+        <CppCompile Include="u_logicka_tacka.cpp">
+            <DependentOn>u_logicka_tacka.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <FormResources Include="U_Grafika.dfm"/>
+        <FormResources Include="u_glavna.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -285,9 +289,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\P3.tds" Configuration="Debug" Class="DebugSymbols">
-                    <Platform Name="Win32">
-                        <RemoteName>P3.tds</RemoteName>
+                <DeployFile LocalName=".\Win64\Debug\P3.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
+                        <RemoteName>P3.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

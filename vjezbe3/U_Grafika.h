@@ -9,6 +9,8 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
+#include "u_logicka_tacka.h"
+
 class TGrafika : public TFrame
 {
 __published:	// IDE-managed Components
@@ -41,6 +43,20 @@ public:		// User declarations
 	}
 
 	void duz(float x1, float y1, float x2, float y2);
+	void tacka(float x, float y);
+	void ispisi(float x, float y, String tekst);
+    void obrisi();
+
+	bool pozitivna_orijentacija(
+		LogickaTacka p1,
+		LogickaTacka p2,
+		LogickaTacka p3);
+
+	bool duzi_se_sijeku(
+		LogickaTacka a,
+		LogickaTacka b,
+		LogickaTacka c,
+		LogickaTacka d);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;
