@@ -148,6 +148,14 @@ object Form1: TForm1
       Caption = 'Sje'#269'enje'
       OnExecute = actSjecenjeExecute
     end
+    object actPoligon: TAction
+      Caption = 'Poligon'
+      OnExecute = actPoligonExecute
+    end
+    object actPripadnostPoligonu: TAction
+      Caption = 'Pripadnost poligonu'
+      OnExecute = actPripadnostPoligonuExecute
+    end
   end
   object cdsTacke: TClientDataSet
     Aggregates = <>
@@ -195,6 +203,12 @@ object Form1: TForm1
       end
       object Sjeenje1: TMenuItem
         Action = actSjecenje
+      end
+      object Poligin1: TMenuItem
+        Action = actPoligon
+      end
+      object Pripadnostpoligonu1: TMenuItem
+        Action = actPripadnostPoligonu
       end
       object N1: TMenuItem
         Caption = '-'
