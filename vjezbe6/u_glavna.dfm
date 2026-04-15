@@ -1,7 +1,7 @@
-object Form1: TForm1
+object frmGlavna: TfrmGlavna
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Glavna forma'
   ClientHeight = 364
   ClientWidth = 576
   Color = clBtnFace
@@ -21,7 +21,6 @@ object Form1: TForm1
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 574
     object Panel1: TPanel
       Left = 391
       Top = 0
@@ -30,7 +29,6 @@ object Form1: TForm1
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 389
       object Button1: TButton
         Left = 64
         Top = 24
@@ -49,8 +47,6 @@ object Form1: TForm1
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitWidth = 574
-    ExplicitHeight = 243
     object pnlKoordinate: TPanel
       Left = 336
       Top = 0
@@ -59,8 +55,6 @@ object Form1: TForm1
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 334
-      ExplicitHeight = 243
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
@@ -104,8 +98,6 @@ object Form1: TForm1
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitWidth = 334
-      ExplicitHeight = 243
       inline Grafika1: TGrafika
         Left = 0
         Top = 0
@@ -113,8 +105,8 @@ object Form1: TForm1
         Height = 251
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 334
-        ExplicitHeight = 243
+        ExplicitWidth = 336
+        ExplicitHeight = 251
         inherited img: TImage
           Width = 336
           Height = 251
@@ -155,6 +147,10 @@ object Form1: TForm1
     object actPripadnostPoligonu: TAction
       Caption = 'Pripadnost poligonu'
       OnExecute = actPripadnostPoligonuExecute
+    end
+    object actKonveksniOmotac: TAction
+      Caption = 'Konveksni omota'#269
+      OnExecute = actKonveksniOmotacExecute
     end
   end
   object cdsTacke: TClientDataSet
@@ -209,6 +205,9 @@ object Form1: TForm1
       end
       object Pripadnostpoligonu1: TMenuItem
         Action = actPripadnostPoligonu
+      end
+      object Konveksniomota1: TMenuItem
+        Action = actKonveksniOmotac
       end
       object N1: TMenuItem
         Caption = '-'

@@ -17,7 +17,7 @@
 #include <Vcl.Grids.hpp>
 #include <Vcl.Menus.hpp>
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TfrmGlavna : public TForm
 {
 __published:	// IDE-managed Components
 	TPanel *pnlGornji;
@@ -48,6 +48,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Poligin1;
 	TAction *actPripadnostPoligonu;
 	TMenuItem *Pripadnostpoligonu1;
+	TAction *actKonveksniOmotac;
+	TMenuItem *Konveksniomota1;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -57,16 +59,16 @@ __published:	// IDE-managed Components
 	void __fastcall actSjecenjeExecute(TObject *Sender);
 	void __fastcall actPoligonExecute(TObject *Sender);
 	void __fastcall actPripadnostPoligonuExecute(TObject *Sender);
+	void __fastcall actKonveksniOmotacExecute(TObject *Sender);
 private:	// User declarations
 	int broj_cvorova;
 
-	void odredi_prost_poligon();
-	void pripadnost_poligonu();
+    std::vector<LogickaTacka> vrati_tacke();
 
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TfrmGlavna(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TfrmGlavna *frmGlavna;
 //---------------------------------------------------------------------------
 #endif

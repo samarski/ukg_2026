@@ -9,6 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
+#include <vector>
 #include "u_logicka_tacka.h"
 
 class TGrafika : public TFrame
@@ -42,10 +43,12 @@ public:		// User declarations
         return centar_y - y;
 	}
 
-	void duz(float x1, float y1, float x2, float y2);
 	void tacka(float x, float y);
+	void duz(float x1, float y1, float x2, float y2);
 	void ispisi(float x, float y, String tekst);
-    void obrisi();
+	void obrisi();
+
+	void poligon(std::vector<LogickaTacka>& tacke);
 
 	bool pozitivna_orijentacija(
 		LogickaTacka p1,
@@ -57,6 +60,12 @@ public:		// User declarations
 		LogickaTacka b,
 		LogickaTacka c,
 		LogickaTacka d);
+
+	std::vector<LogickaTacka> prost_poligon(std::vector<LogickaTacka>& arg_tacke);
+
+	bool tacka_u_poligonu(std::vector<LogickaTacka>& tacke, LogickaTacka& p);
+
+	std::vector<LogickaTacka> konveksni_omotac(std::vector<LogickaTacka>& arg_tacke);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

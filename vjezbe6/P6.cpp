@@ -5,7 +5,7 @@
 #include <tchar.h>
 //---------------------------------------------------------------------------
 USEFORM("U_Grafika.cpp", Grafika); /* TFrame: File Type */
-USEFORM("u_glavna.cpp", Form1);
+USEFORM("u_glavna.cpp", frmGlavna);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -13,7 +13,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		Application->CreateForm(__classid(TForm1), &Form1);
+		Application->CreateForm(__classid(TfrmGlavna), &frmGlavna);
 		Application->Run();
 	}
 	catch (Exception &exception)

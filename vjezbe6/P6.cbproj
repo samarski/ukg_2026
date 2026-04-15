@@ -187,7 +187,7 @@
             <PCH>true</PCH>
         </PCHCompile>
         <CppCompile Include="u_glavna.cpp">
-            <Form>Form1</Form>
+            <Form>frmGlavna</Form>
             <FormType>dfm</FormType>
             <DependentOn>u_glavna.h</DependentOn>
             <BuildOrder>2</BuildOrder>
