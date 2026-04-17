@@ -203,6 +203,10 @@
             <DependentOn>u_logicka_tacka.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="u_logicki_trougao.cpp">
+            <DependentOn>u_logicki_trougao.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
         <FormResources Include="U_Grafika.dfm"/>
         <FormResources Include="u_glavna.dfm"/>
         <BuildConfiguration Include="Base">

@@ -64,6 +64,36 @@ void TGrafika::duz(float x1, float y1, float x2, float y2) {
 	c->LineTo(X2, Y2);
 }
 
+
+void TGrafika::trougao(float x1, float y1, float x2, float y2,
+	float x3, float y3) {
+
+	duz(x1, y1, x2, y2);
+	duz(x2, y2, x3, y3);
+	duz(x3, y3, x1, y1);
+}
+
+void TGrafika::trougao_u_boji(float x1, float y1, float x2, float y2,
+	float x3, float y3, TColor boja) {
+
+	auto X1 = iX(x1);
+	auto Y1 = iY(y1);
+	auto X2 = iX(x2);
+	auto Y2 = iY(y2);
+	auto X3 = iX(x3);
+	auto Y3 = iY(y3);
+
+	TPoint tacke[3] = {TPoint(X1,Y1), TPoint(X2,Y2), TPoint(X3,Y3)};
+
+	auto c = img->Canvas;
+	c->Pen->Color = clBlack;
+	c->Brush->Style = bsSolid;
+	c->Brush->Color = boja;
+	c->Polygon(tacke, 2);
+}
+
+
+
 //---------------------------------------------------------------------------
 void TGrafika::ispisi(float x, float y, String tekst) {
 	auto X = iX(x);
@@ -235,5 +265,90 @@ std::vector<LogickaTacka> TGrafika::konveksni_omotac(std::vector<LogickaTacka>& 
 	}
 
 	return omotac;
+}
+
+
+bool TGrafika::tacka_pripada_ccw_trouglu(
+	LogickaTacka A,
+	LogickaTacka B,
+	LogickaTacka C,
+	LogickaTacka P) {
+
+	return pozitivna_orijentacija(A, B, P) &&
+		pozitivna_orijentacija(B, C, P) &&
+		pozitivna_orijentacija(C, A, P);
+}
+
+
+std::vector<LogickiTrougao> TGrafika::triangulacija(
+	std::vector<LogickaTacka>& arg_tacke) {
+
+
+	// auto tacke = prost_poligon(arg_tacke);
+    auto tacke = arg_tacke;
+	std::vector<LogickiTrougao> rezultat;
+
+	if (arg_tacke.size() < 3) {
+		return rezultat;
+	}
+
+	if (arg_tacke.size() == 3) {
+		auto t = LogickiTrougao(tacke[0], tacke[1], tacke[2]);
+		rezultat.push_back(t);
+		return rezultat;
+	}
+
+	auto n = tacke.size();
+	while (n > 3) {
+		//
+
+		bool nasli_smo_uho = false;
+
+		for (auto i = 0; i < n; i++) {
+
+			auto prva = (i-1+n) % n;
+			auto druga = i;
+			auto treca = (i+1) % n;
+
+			auto A = tacke[prva];
+			auto B = tacke[druga];
+			auto C = tacke[treca];
+
+			if (pozitivna_orijentacija(A, B, C)) {
+
+				 auto nema_tacaka = true;
+				 for (auto j = 0; j < n; j++) {
+					if (j == prva || j == druga || j == treca)
+						continue;
+
+					if (tacka_pripada_ccw_trouglu(A, B, C, tacke[j])) {
+						nema_tacaka = false;
+						break; // ovo je break j-petlje
+					}
+				 }
+
+				 // nema_tacaka govori jesmo li nasli tacku u nasem
+				 // trouglu A, B, C
+
+				 if (nema_tacaka) {
+					nasli_smo_uho = true;
+
+					// nasli smo uho
+					rezultat.push_back(LogickiTrougao(A, B, C));
+					tacke.erase(tacke.begin() + i);
+					n--;
+					break; // ovo je break i-petlje
+				 }
+			} // end if pozitivna_orijentacija(A, B, C)
+		}
+
+		if (!nasli_smo_uho) {
+			break; // nesto je ovdje problem
+		}
+	}
+
+	rezultat.push_back(LogickiTrougao(tacke[0], tacke[1], tacke[2]));
+
+	return rezultat;
 }
 

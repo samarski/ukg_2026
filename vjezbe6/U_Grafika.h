@@ -11,6 +11,7 @@
 //---------------------------------------------------------------------------
 #include <vector>
 #include "u_logicka_tacka.h"
+#include "u_logicki_trougao.h"
 
 class TGrafika : public TFrame
 {
@@ -45,6 +46,11 @@ public:		// User declarations
 
 	void tacka(float x, float y);
 	void duz(float x1, float y1, float x2, float y2);
+	void trougao(float x1, float y1, float x2, float y2,
+		float x3, float y3);
+	void trougao_u_boji(float x1, float y1, float x2, float y2,
+		float x3, float y3, TColor boja);
+
 	void ispisi(float x, float y, String tekst);
 	void obrisi();
 
@@ -54,6 +60,12 @@ public:		// User declarations
 		LogickaTacka p1,
 		LogickaTacka p2,
 		LogickaTacka p3);
+
+	bool tacka_pripada_ccw_trouglu(
+		LogickaTacka A,
+		LogickaTacka B,
+		LogickaTacka C,
+		LogickaTacka P);
 
 	bool duzi_se_sijeku(
 		LogickaTacka a,
@@ -66,6 +78,8 @@ public:		// User declarations
 	bool tacka_u_poligonu(std::vector<LogickaTacka>& tacke, LogickaTacka& p);
 
 	std::vector<LogickaTacka> konveksni_omotac(std::vector<LogickaTacka>& arg_tacke);
+
+    std::vector<LogickiTrougao> triangulacija(std::vector<LogickaTacka>& arg_tacke);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

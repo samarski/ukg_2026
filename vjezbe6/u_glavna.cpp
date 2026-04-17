@@ -190,3 +190,28 @@ void __fastcall TfrmGlavna::actKonveksniOmotacExecute(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmGlavna::actTriangulacijaExecute(TObject *Sender)
+{
+	auto tacke = vrati_tacke();
+	Grafika1->poligon(tacke);
+
+	auto trouglovi = Grafika1->triangulacija(tacke);
+
+	std::vector<TColor> boje{clRed, clBlue, clGreen, clMaroon, clPurple, clLime};
+
+	for (int i = 0; i < trouglovi.size(); i++) {
+		auto t = trouglovi[i];
+		Grafika1->trougao_u_boji(
+			t.A.x, t.A.y,
+			t.B.x, t.B.y,
+			t.C.x, t.C.y,
+			boje[i % boje.size()]);
+
+		Grafika1->trougao(
+			t.A.x, t.A.y,
+			t.B.x, t.B.y,
+			t.C.x, t.C.y);
+	}
+}
+//---------------------------------------------------------------------------
+

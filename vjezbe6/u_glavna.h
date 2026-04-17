@@ -50,6 +50,8 @@ __published:	// IDE-managed Components
 	TMenuItem *Pripadnostpoligonu1;
 	TAction *actKonveksniOmotac;
 	TMenuItem *Konveksniomota1;
+	TAction *actTriangulacija;
+	TMenuItem *rijangulacija1;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -60,6 +62,7 @@ __published:	// IDE-managed Components
 	void __fastcall actPoligonExecute(TObject *Sender);
 	void __fastcall actPripadnostPoligonuExecute(TObject *Sender);
 	void __fastcall actKonveksniOmotacExecute(TObject *Sender);
+	void __fastcall actTriangulacijaExecute(TObject *Sender);
 private:	// User declarations
 	int broj_cvorova;
 
