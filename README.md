@@ -24,3 +24,7 @@ Akademska godina 2025/2026. godina
 * Vježbe 6
     + sređivanje programskog koda
     + triangulacija
+* Vježbe 7
+    + izometrijske (3D) koordinate
+    + crtanje grafika funkcije
+    + rotacija oko z-ose

@@ -1,0 +1,107 @@
+//---------------------------------------------------------------------------
+
+#ifndef U_GrafikaH
+#define U_GrafikaH
+//---------------------------------------------------------------------------
+#include <System.Classes.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include <Vcl.ExtCtrls.hpp>
+//---------------------------------------------------------------------------
+#include <vector>
+#include "u_logicka_tacka.h"
+#include "u_logicki_trougao.h"
+#include "u_logicka_3d_tacka.h"
+
+class TGrafika : public TFrame
+{
+__published:	// IDE-managed Components
+	TImage *img;
+	void __fastcall FrameResize(TObject *Sender);
+private:	// User declarations
+	int centar_x, centar_y;
+
+	float alfa_2d;
+	float skaliraj_x;
+	float skaliraj_y;
+
+public:		// User declarations
+	__fastcall TGrafika(TComponent* Owner);
+
+	// X i Y su fizicke koordinate
+	// x i y su logicke koordinate
+	inline float fx(const int X) {
+		return (X - centar_x);
+	}
+
+	inline float fy(const int Y) {
+		return (centar_y - Y);
+	}
+
+	void postavi_centar(const int cx, const int cy) {
+		centar_x = cx;
+        centar_y = cy;
+	}
+
+	inline int iX(const float x) {
+		return centar_x + x;
+	}
+	inline int iY(const float y) {
+        return centar_y - y;
+	}
+
+	void podesi(
+		float aAlfa2D,
+		float aSkalirajX,
+		float aSkalirajY);
+
+    float getAlfa2D() { return alfa_2d; };
+
+	void tacka(float x, float y);
+	void duz(float x1, float y1, float x2, float y2);
+	void trougao(float x1, float y1, float x2, float y2,
+		float x3, float y3);
+	void trougao_u_boji(float x1, float y1, float x2, float y2,
+		float x3, float y3, TColor boja);
+
+	void ispisi(float x, float y, String tekst);
+	void obrisi();
+
+	void poligon(std::vector<LogickaTacka>& tacke);
+
+	bool pozitivna_orijentacija(
+		LogickaTacka p1,
+		LogickaTacka p2,
+		LogickaTacka p3);
+
+	bool tacka_pripada_ccw_trouglu(
+		LogickaTacka A,
+		LogickaTacka B,
+		LogickaTacka C,
+		LogickaTacka P);
+
+	bool duzi_se_sijeku(
+		LogickaTacka a,
+		LogickaTacka b,
+		LogickaTacka c,
+		LogickaTacka d);
+
+	std::vector<LogickaTacka> prost_poligon(std::vector<LogickaTacka>& arg_tacke);
+
+	bool tacka_u_poligonu(std::vector<LogickaTacka>& tacke, LogickaTacka& p);
+
+	std::vector<LogickaTacka> konveksni_omotac(std::vector<LogickaTacka>& arg_tacke);
+
+    std::vector<LogickiTrougao> triangulacija(std::vector<LogickaTacka>& arg_tacke);
+
+	// 3D grafika
+
+	void duz(Logicka3DTacka A, Logicka3DTacka B);
+
+	LogickaTacka iso_3d_u_2d(Logicka3DTacka P);
+};
+//---------------------------------------------------------------------------
+extern PACKAGE TGrafika *Grafika;
+//---------------------------------------------------------------------------
+#endif
