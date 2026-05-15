@@ -257,7 +257,16 @@ void __fastcall TfrmGlavna::act3DGrafExecute(TObject *Sender)
 	Grafika1->postavi_centar(Grafika1->Width/2, Grafika1->Height/2);
 	Grafika1->obrisi();
 	auto faktor = Grafika1->Width / 10.0;
+
+	faktor = faktor * 10;
+
 	Grafika1->podesi(Grafika1->getAlfa2D(), faktor, faktor);
+
+	auto oko_x = StrToFloat(edtOkoX->Text);
+	auto oko_y = StrToFloat(edtOkoY->Text);
+	auto oko_z = StrToFloat(edtOkoZ->Text);
+
+    Grafika1->postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
 
 	auto n = (int) Grafika1->Width / 25;
 	auto f = [](float x, float y) {

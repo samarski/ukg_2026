@@ -14,6 +14,11 @@
 #include "u_logicki_trougao.h"
 #include "u_logicka_3d_tacka.h"
 
+enum class TVrstaPrikaza {
+	iso3D,
+    perspektiva
+};
+
 class TGrafika : public TFrame
 {
 __published:	// IDE-managed Components
@@ -25,6 +30,9 @@ private:	// User declarations
 	float alfa_2d;
 	float skaliraj_x;
 	float skaliraj_y;
+
+	TVrstaPrikaza vrsta_prikaza;
+    Logicka3DTacka oko;
 
 public:		// User declarations
 	__fastcall TGrafika(TComponent* Owner);
@@ -43,6 +51,10 @@ public:		// User declarations
 		centar_x = cx;
         centar_y = cy;
 	}
+
+	void postavi_oko(Logicka3DTacka E) {
+        oko = E;
+    }
 
 	inline int iX(const float x) {
 		return centar_x + x;
@@ -100,6 +112,8 @@ public:		// User declarations
 	void duz(Logicka3DTacka A, Logicka3DTacka B);
 
 	LogickaTacka iso_3d_u_2d(Logicka3DTacka P);
+	LogickaTacka persp_u_2d(Logicka3DTacka P);
+    LogickaTacka trid_u_dvad(Logicka3DTacka P);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

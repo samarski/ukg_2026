@@ -59,6 +59,9 @@ __published:	// IDE-managed Components
 	TAction *actRotirajDesno;
 	TAction *act3DGraf;
 	TMenuItem *N3Dgraf1;
+	TEdit *edtOkoX;
+	TEdit *edtOkoY;
+	TEdit *edtOkoZ;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);

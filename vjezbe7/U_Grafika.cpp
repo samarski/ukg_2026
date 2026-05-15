@@ -6,9 +6,13 @@
 #pragma hdrstop
 
 #include "U_Grafika.h"
+#include "u_trid_operator.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
+
 TGrafika *Grafika;
 //---------------------------------------------------------------------------
 __fastcall TGrafika::TGrafika(TComponent* Owner)
@@ -16,7 +20,10 @@ __fastcall TGrafika::TGrafika(TComponent* Owner)
 {
 	centar_x = centar_y = 350;
 	alfa_2d = 0;
-    skaliraj_x = skaliraj_y = 1.0;
+	skaliraj_x = skaliraj_y = 1.0;
+
+	vrsta_prikaza = TVrstaPrikaza::perspektiva;
+    oko = Logicka3DTacka(10, 10, 2);
 }
 
 //---------------------------------------------------------------------------
@@ -366,24 +373,52 @@ void TGrafika::podesi(
 }
 
 void TGrafika::duz(Logicka3DTacka A, Logicka3DTacka B) {
-	auto A2 = iso_3d_u_2d(A);
-	auto B2 = iso_3d_u_2d(B);
+	auto A2 = trid_u_dvad(A);
+	auto B2 = trid_u_dvad(B);
 
 	duz(A2.x, A2.y, B2.x, B2.y);
 }
+
+
 
 LogickaTacka TGrafika::iso_3d_u_2d(Logicka3DTacka P) {
 	auto ugao = 3.1415926 * alfa_2d / 180.0;
 	auto rx = P.x * std::cos(ugao) - P.y * std::sin(ugao);
 	auto ry = P.x * std::sin(ugao) + P.y * std::cos(ugao);
-    auto rz = P.z;
+	auto rz = P.z;
 
-	auto x = -rx * 0.5 + ry;
-	auto y = -rx * 0.5 + rz;
+	auto x = -rx * 0.7 + ry;
+	auto y = -rx * 0.3 + rz;
 
 	x = x * skaliraj_x;
 	y = y * skaliraj_y;
 
 	return LogickaTacka(x, y, "");
+}
+
+LogickaTacka TGrafika::persp_u_2d(Logicka3DTacka P) {
+	// auto T = TriDOperator::translacija(-oko.x, -oko.y, -oko.z);
+	auto T = TriDOperator::translacija(-oko);
+	P = T(P);
+	auto theta = std::atan2(oko.y, oko.x) + 3.1415926 / 2;
+	auto Rz = TriDOperator::rotacija_oko_z(-theta);
+	P = Rz(P);
+	auto phi = std::atan2(std::sqrt(oko.x*oko.x + oko.y*oko.y), oko.z);
+	auto Rx = TriDOperator::rotacija_oko_x(-phi);
+	P = Rx(P);
+
+	auto x = -skaliraj_x * P.x / P.z;
+	auto y = -skaliraj_y * P.y / P.z;
+
+    return LogickaTacka(x, y, "");
+}
+
+
+LogickaTacka TGrafika::trid_u_dvad(Logicka3DTacka P) {
+	if (vrsta_prikaza == TVrstaPrikaza::iso3D) {
+		return iso_3d_u_2d(P);
+	} else if (vrsta_prikaza == TVrstaPrikaza::perspektiva) {
+		return persp_u_2d(P);
+	}
 }
 

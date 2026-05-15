@@ -40,6 +40,27 @@ object frmGlavna: TfrmGlavna
         TabOrder = 0
       end
     end
+    object edtOkoX: TEdit
+      Left = 304
+      Top = 16
+      Width = 121
+      Height = 23
+      TabOrder = 1
+    end
+    object edtOkoY: TEdit
+      Left = 304
+      Top = 45
+      Width = 121
+      Height = 23
+      TabOrder = 2
+    end
+    object edtOkoZ: TEdit
+      Left = 304
+      Top = 72
+      Width = 121
+      Height = 23
+      TabOrder = 3
+    end
   end
   object pnlDonji: TPanel
     Left = 0
