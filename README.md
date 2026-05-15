@@ -28,3 +28,6 @@ Akademska godina 2025/2026. godina
     + izometrijske (3D) koordinate
     + crtanje grafika funkcije
     + rotacija oko z-ose
+* Vježbe 8
+    + operatori (linearne transformacije, translacije)
+    + perspektivna projekcija
