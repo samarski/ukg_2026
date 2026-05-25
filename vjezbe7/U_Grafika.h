@@ -110,6 +110,7 @@ public:		// User declarations
 	// 3D grafika
 
 	void duz(Logicka3DTacka A, Logicka3DTacka B);
+	void poligon(std::vector<Logicka3DTacka>& tacke);
 
 	LogickaTacka iso_3d_u_2d(Logicka3DTacka P);
 	LogickaTacka persp_u_2d(Logicka3DTacka P);

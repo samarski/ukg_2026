@@ -31,3 +31,5 @@ Akademska godina 2025/2026. godina
 * Vježbe 8
     + operatori (linearne transformacije, translacije)
     + perspektivna projekcija
+* Vježbe 9
+    + čitanje figure (mrežne strukture) iz fajla

@@ -7,6 +7,7 @@
 
 #include "u_glavna.h"
 #include "u_logicka_3d_tacka.h"
+#include "u_objekat.h"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -266,7 +267,7 @@ void __fastcall TfrmGlavna::act3DGrafExecute(TObject *Sender)
 	auto oko_y = StrToFloat(edtOkoY->Text);
 	auto oko_z = StrToFloat(edtOkoZ->Text);
 
-    Grafika1->postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
+	Grafika1->postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
 
 	auto n = (int) Grafika1->Width / 25;
 	auto f = [](float x, float y) {
@@ -294,6 +295,37 @@ void __fastcall TfrmGlavna::act3DGrafExecute(TObject *Sender)
 			if (j < n)
 				Grafika1->duz(mreza[i][j],mreza[i][j+1]);
 		}
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmGlavna::actUcitajIzFajlaExecute(TObject *Sender)
+{
+	// inicijalizacija grafike
+	Grafika1->postavi_centar(Grafika1->Width/2, Grafika1->Height/2);
+	Grafika1->obrisi();
+	auto faktor = Grafika1->Width / 10.0;
+
+	faktor = faktor * 10;
+
+	Grafika1->podesi(Grafika1->getAlfa2D(), faktor, faktor);
+
+	auto oko_x = StrToFloat(edtOkoX->Text);
+	auto oko_y = StrToFloat(edtOkoY->Text);
+	auto oko_z = StrToFloat(edtOkoZ->Text);
+
+	Grafika1->postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
+	// kraj inicijalizacije
+
+	Objekat obj;
+	obj.procitaj("C:\\ukg_2026\\test.txt");
+
+	for (int i = 0; i < obj.poligoni.size(); i++) {
+		std::vector<Logicka3DTacka> tacke;
+		for (auto index : obj.poligoni[i]) {
+			tacke.push_back(obj.vrhovi[index-1]);
+		}
+		Grafika1->poligon(tacke);
 	}
 }
 //---------------------------------------------------------------------------

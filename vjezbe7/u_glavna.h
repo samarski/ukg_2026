@@ -62,6 +62,9 @@ __published:	// IDE-managed Components
 	TEdit *edtOkoX;
 	TEdit *edtOkoY;
 	TEdit *edtOkoZ;
+	TAction *actUcitajIzFajla;
+	TMenuItem *N2;
+	TMenuItem *Uitajizfajla1;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -77,6 +80,7 @@ __published:	// IDE-managed Components
 	void __fastcall actRotirajLijevoExecute(TObject *Sender);
 	void __fastcall actRotirajDesnoExecute(TObject *Sender);
 	void __fastcall act3DGrafExecute(TObject *Sender);
+	void __fastcall actUcitajIzFajlaExecute(TObject *Sender);
 private:	// User declarations
 	int broj_cvorova;
 

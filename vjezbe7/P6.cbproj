@@ -211,12 +211,16 @@
             <DependentOn>u_logicki_trougao.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <CppCompile Include="u_objekat.cpp">
+            <DependentOn>u_objekat.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
         <CppCompile Include="u_trid_operator.cpp">
             <DependentOn>u_trid_operator.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <FormResources Include="U_Grafika.dfm"/>
         <FormResources Include="u_glavna.dfm"/>
+        <FormResources Include="U_Grafika.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

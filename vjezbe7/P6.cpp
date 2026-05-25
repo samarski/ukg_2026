@@ -4,8 +4,8 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("U_Grafika.cpp", Grafika); /* TFrame: File Type */
 USEFORM("u_glavna.cpp", frmGlavna);
+USEFORM("U_Grafika.cpp", Grafika); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

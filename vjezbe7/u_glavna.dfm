@@ -206,6 +206,10 @@ object frmGlavna: TfrmGlavna
       Caption = '3D graf'
       OnExecute = act3DGrafExecute
     end
+    object actUcitajIzFajla: TAction
+      Caption = 'U'#269'itaj iz fajla'
+      OnExecute = actUcitajIzFajlaExecute
+    end
   end
   object cdsTacke: TClientDataSet
     Aggregates = <>
@@ -280,6 +284,12 @@ object frmGlavna: TfrmGlavna
       end
       object N3Dgraf1: TMenuItem
         Action = act3DGraf
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object Uitajizfajla1: TMenuItem
+        Action = actUcitajIzFajla
       end
     end
   end

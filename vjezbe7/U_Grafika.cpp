@@ -422,3 +422,15 @@ LogickaTacka TGrafika::trid_u_dvad(Logicka3DTacka P) {
 	}
 }
 
+void TGrafika::poligon(std::vector<Logicka3DTacka>& tacke) {
+	int prethodna = tacke.size()-1;
+	int tekuca = 0;
+	while (tekuca < tacke.size()) {
+		duz(tacke[prethodna], tacke[tekuca]);
+
+		prethodna = tekuca;
+		tekuca++;
+	}
+
+}
+
