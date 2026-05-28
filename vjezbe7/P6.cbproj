@@ -207,6 +207,10 @@
             <DependentOn>u_logicka_tacka.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="u_logicki_3d_trougao.cpp">
+            <DependentOn>u_logicki_3d_trougao.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="u_logicki_trougao.cpp">
             <DependentOn>u_logicki_trougao.h</DependentOn>
             <BuildOrder>5</BuildOrder>
@@ -214,6 +218,10 @@
         <CppCompile Include="u_objekat.cpp">
             <DependentOn>u_objekat.h</DependentOn>
             <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="u_poligon.cpp">
+            <DependentOn>u_poligon.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
         </CppCompile>
         <CppCompile Include="u_trid_operator.cpp">
             <DependentOn>u_trid_operator.h</DependentOn>

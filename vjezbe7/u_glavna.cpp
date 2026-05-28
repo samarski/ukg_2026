@@ -237,9 +237,11 @@ void __fastcall TfrmGlavna::actRotirajLijevoExecute(TObject *Sender)
 {
 	// Grafika1->podesi(Grafika1->getAlfa2D()-5, 1.0, 1.0);
 	// act2DTest->Execute();
-	Grafika1->podesi(Grafika1->getAlfa2D()-1, 100, 100);
+	// Grafika1->podesi(Grafika1->getAlfa2D()-1, 100, 100);
 	// ShowMessage(FloatToStr(Grafika1->getAlfa2D()));
-	act3DGraf->Execute();
+	Grafika1->e_theta -= 0.05;
+	actUcitajIzFajla->Execute();
+	// act3DGraf->Execute();
 }
 //---------------------------------------------------------------------------
 
@@ -249,7 +251,9 @@ void __fastcall TfrmGlavna::actRotirajDesnoExecute(TObject *Sender)
 //	act2DTest->Execute();
 	Grafika1->podesi(Grafika1->getAlfa2D()+1, 100, 100);
 	// ShowMessage(FloatToStr(Grafika1->getAlfa2D()));
-	act3DGraf->Execute();
+	Grafika1->e_theta += 0.05;
+	// act3DGraf->Execute();
+	actUcitajIzFajla->Execute();
 }
 //---------------------------------------------------------------------------
 
@@ -302,6 +306,7 @@ void __fastcall TfrmGlavna::act3DGrafExecute(TObject *Sender)
 void __fastcall TfrmGlavna::actUcitajIzFajlaExecute(TObject *Sender)
 {
 	// inicijalizacija grafike
+	/*
 	Grafika1->postavi_centar(Grafika1->Width/2, Grafika1->Height/2);
 	Grafika1->obrisi();
 	auto faktor = Grafika1->Width / 10.0;
@@ -316,17 +321,21 @@ void __fastcall TfrmGlavna::actUcitajIzFajlaExecute(TObject *Sender)
 
 	Grafika1->postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
 	// kraj inicijalizacije
+	*/
 
 	Objekat obj;
 	obj.procitaj("C:\\ukg_2026\\test.txt");
 
-	for (int i = 0; i < obj.poligoni.size(); i++) {
+	/*
+	for (int i = 0; i < obj.getPoligoni().size(); i++) {
 		std::vector<Logicka3DTacka> tacke;
-		for (auto index : obj.poligoni[i]) {
-			tacke.push_back(obj.vrhovi[index-1]);
+		for (auto index : obj.getPoligoni()[i]) {
+			tacke.push_back(obj.getVrhovi()[index-1]);
 		}
 		Grafika1->poligon(tacke);
 	}
+	*/
+    Grafika1->nacrtaj(obj);
 }
 //---------------------------------------------------------------------------
 

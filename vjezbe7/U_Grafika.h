@@ -10,9 +10,12 @@
 #include <Vcl.ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 #include <vector>
+#include <unordered_map>
 #include "u_logicka_tacka.h"
 #include "u_logicki_trougao.h"
 #include "u_logicka_3d_tacka.h"
+#include "u_objekat.h"
+#include "u_poligon.h"
 
 enum class TVrstaPrikaza {
 	iso3D,
@@ -87,6 +90,11 @@ public:		// User declarations
 		LogickaTacka p2,
 		LogickaTacka p3);
 
+	float povrsina2D(
+		LogickaTacka p1,
+		LogickaTacka p2,
+		LogickaTacka p3);
+
 	bool tacka_pripada_ccw_trouglu(
 		LogickaTacka A,
 		LogickaTacka B,
@@ -98,6 +106,8 @@ public:		// User declarations
 		LogickaTacka b,
 		LogickaTacka c,
 		LogickaTacka d);
+
+	float udaljenost(LogickaTacka a, LogickaTacka b);
 
 	std::vector<LogickaTacka> prost_poligon(std::vector<LogickaTacka>& arg_tacke);
 
@@ -114,7 +124,43 @@ public:		// User declarations
 
 	LogickaTacka iso_3d_u_2d(Logicka3DTacka P);
 	LogickaTacka persp_u_2d(Logicka3DTacka P);
-    LogickaTacka trid_u_dvad(Logicka3DTacka P);
+	LogickaTacka trid_u_dvad(Logicka3DTacka P);
+
+	// 3D crtanje sa sakrivanjem linija
+private:
+	std::vector<Logicka3DTacka> l_tacke;
+	std::vector<Logicka3DTacka> l_o_tacke; // koordinate iz "oka"
+	std::vector<LogickaTacka> l_e_tacke; // koordinate taèaka na ekranu
+	std::vector<Poligon> l_poligoni;
+
+    // hash lista duzi koje je potrebno prikazati
+	std::unordered_map<int, std::vector<int>> l_duzi;
+
+	int l_broj_trouglova;
+	std::vector<Logicki3DTrougao> l_tr;
+	std::vector<int> l_refpol;
+
+	float e_v11, e_v12, e_v13;
+	float e_v21, e_v22, e_v23;
+	float e_v32, e_v33, e_v43;
+
+	float e_rho, e_rho_min, e_rho_max;
+	float e_d;
+
+	void l_napravi_skup_duzi(Objekat& obj);
+	void l_init_persp();
+	void l_saznaj_koordinate();
+
+	void nacrtaj_duz(
+		Logicka3DTacka p, Logicka3DTacka q,
+		LogickaTacka pScr, LogickaTacka qScr,
+		int iP, int iQ, int iStart);
+
+public:
+	// privremeno
+	float e_theta, e_phi;
+
+	void nacrtaj(Objekat& obj);
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

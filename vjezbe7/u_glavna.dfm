@@ -2,7 +2,7 @@ object frmGlavna: TfrmGlavna
   Left = 0
   Top = 0
   Caption = 'Glavna forma'
-  ClientHeight = 364
+  ClientHeight = 369
   ClientWidth = 576
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -66,27 +66,27 @@ object frmGlavna: TfrmGlavna
     Left = 0
     Top = 113
     Width = 576
-    Height = 251
+    Height = 256
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
     ExplicitWidth = 574
-    ExplicitHeight = 243
+    ExplicitHeight = 248
     object pnlKoordinate: TPanel
       Left = 336
       Top = 0
       Width = 240
-      Height = 251
+      Height = 256
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
       ExplicitLeft = 334
-      ExplicitHeight = 243
+      ExplicitHeight = 248
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
         Width = 240
-        Height = 251
+        Height = 256
         Align = alClient
         DataSource = dsrTacke
         TabOrder = 0
@@ -121,24 +121,24 @@ object frmGlavna: TfrmGlavna
       Left = 0
       Top = 0
       Width = 336
-      Height = 251
+      Height = 256
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       ExplicitWidth = 334
-      ExplicitHeight = 243
+      ExplicitHeight = 248
       inline Grafika1: TGrafika
         Left = 0
         Top = 0
         Width = 336
-        Height = 251
+        Height = 256
         Align = alClient
         TabOrder = 0
         ExplicitWidth = 334
-        ExplicitHeight = 243
+        ExplicitHeight = 248
         inherited img: TImage
           Width = 336
-          Height = 251
+          Height = 256
           OnMouseDown = Grafika1imgMouseDown
           ExplicitLeft = -6
           ExplicitTop = 6
