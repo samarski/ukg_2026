@@ -510,7 +510,7 @@ void TGrafika::nacrtaj(Objekat& obj) {
 
     obrisi();
 
-	// napravi skup duži
+	// napravi skup duzi
 	l_napravi_skup_duzi(obj);
 
 	// napravi poligone na osnovu definicije objekta
@@ -518,7 +518,7 @@ void TGrafika::nacrtaj(Objekat& obj) {
 	for (auto& p: obj.getPoligoni()) {
 		std::vector<Logicka3DTacka> tacke;
 		for (auto idx: p) {
-			auto t = obj.getVrhovi()[idx];
+			auto t = l_tacke[idx];
 			// t.index = idx;
 			tacke.push_back(t);
 		}
@@ -561,69 +561,6 @@ void TGrafika::nacrtaj(Objekat& obj) {
 		l_poligoni.push_back(poligon);
 	}
 
-	/*
-	String s;
-	for (auto& p: l_poligoni) {
-		auto Pindex = p.getTacke()[p.broj_vrhova()-1].index;
-		for (auto& T: p.getTacke()) {
-			auto prva = l_e_tacke[Pindex];
-			auto druga = l_e_tacke[T.index];
-			s += IntToStr(int(prva.x)) + ";" + IntToStr(int(prva.y)) + " - " +
-			   IntToStr(int(druga.x)) + ";" + IntToStr(int(druga.y)) +
-			   ";" + IntToStr(Pindex) + "-" + IntToStr(T.index) + "\n";
-
-			duz(prva.x, prva.y, druga.x, druga.y);
-			// ShowMessage("OK");
-
-			Pindex = T.index;
-		}
-	}
-
-	ShowMessage(s);
-	*/
-
-	/*
-	for (const auto& par: l_duzi) {
-		for (auto& idx: par.second) {
-			auto prva = l_e_tacke[par.first];
-			auto druga = l_e_tacke[idx];
-
-//			ShowMessage(IntToStr(par.first) + " to " + IntToStr(idx));
-
-			// ShowMessage(FloatToStr(prva.x) + "," + FloatToStr(prva.y) + " - " +
-			// FloatToStr(druga.x) + ";" + FloatToStr(druga.y));
-			//
-			duz(prva.x, prva.y, druga.x, druga.y);
-			ShowMessage(IntToStr(par.first) + "-" + IntToStr(idx));
-		}
-	}
-	*/
-
-
-
-	/*
-	postavi_centar(this->Width/2, this->Height/2);
-	obrisi();
-	auto faktor = this->Width / 10.0;
-	faktor = faktor * 10;
-	podesi(getAlfa2D(), faktor, faktor);
-
-	auto oko_x = 5;
-	auto oko_y = 5;
-	auto oko_z = 5;
-	postavi_oko(Logicka3DTacka(oko_x, oko_y, oko_z));
-
-	for (const auto& par: l_duzi) {
-		for (auto& idx: par.second) {
-			ShowMessage(IntToStr(par.first) + "-" + IntToStr(idx));
-			duz(l_tacke[par.first],l_tacke[idx]);
-		}
-	}
-
-	return;
-	*/
-
-
 	// N.B. h_granica je negativan (veoma mali) broj relativno u odnosu na
 	// velicinu
 	auto h_granica = -1e-6 * vel;
@@ -645,13 +582,11 @@ void TGrafika::nacrtaj(Objekat& obj) {
 		pol_idx++;
 	}
 	l_broj_trouglova = l_tr.size();
-    ShowMessage("Broj trouglova=" + IntToStr(int(l_broj_trouglova)));
 
 	for (const auto& par: l_duzi) {
 		for (auto& idx: par.second) {
 			nacrtaj_duz(l_o_tacke[par.first],l_o_tacke[idx],
 				l_e_tacke[par.first],l_e_tacke[idx],par.first,idx,0);
-			// ShowMessage(IntToStr(par.first) + "-" + IntToStr(idx));
 		}
 	}
 }
@@ -718,6 +653,8 @@ void TGrafika::l_napravi_skup_duzi(Objekat& obj) {
 	// vektor vrhova N koji su povezani sa M, ali na nacin
 	// da je indeks vrha M < indeks vrha N
 
+	l_duzi.clear();
+
 	for (auto poligon: obj.getPoligoni()) {
 		auto duzina = poligon.size();
 		auto prethodni_vrh = poligon[duzina-1];
@@ -734,39 +671,6 @@ void TGrafika::l_napravi_skup_duzi(Objekat& obj) {
 			prethodni_vrh = tekuci_vrh;
 		}
 	}
-
-	/*
-	// Build the array ’connect’, where connect[i] is a
-	// Vector<Integer> containing all vertex numbers j,
-	// such that (i, connect[i].elementAt(j).intValue())
-	// is an edge of the 3D object.
-	polyList = obj.getPolyList();
-	nVertices = obj.getVScr().length;
-	connect = new Vector[nVertices];
-	for (int i=0; i<nVertices; i++)
-		connect[i] = new Vector<Integer>();
-	int nFaces = polyList.size();
-	for (int j = 0; j < nFaces; j++) {
-		Polygon3D pol = polyList.elementAt(j);
-		int[] nrs = pol.getNrs();
-		int n = nrs.length;
-		if (n > 2 && pol.getH() > 0)
-			continue;
-		int ii = Math.abs(nrs[n - 1]);
-		for (int k = 0; k < n; k++) {
-			int jj = nrs[k];
-			if (jj < 0) jj = -jj; // abs
-			else {
-				int i1 = Math.min(ii, jj),
-					j1 = Math.max(ii, jj);
-				Integer j1Int = new Integer(j1);
-				if (connect[i1].indexOf(j1Int) == -1)
-					connect[i1].addElement(j1Int);
-			}
-			ii = jj;
-		}
-	}
-    */
 }
 
 
@@ -786,9 +690,6 @@ void TGrafika::nacrtaj_duz(
 	auto e = l_o_tacke;
 	auto vScr = l_e_tacke;
 	for (int i = iStart; i < l_broj_trouglova; i++) {
-		if (iP == 3 && iQ == 4 && i == 0) {
-            ShowMessage("Pauza");
-		}
 
 		Logicki3DTrougao t = l_tr[i];
 		int iA = std::abs(t.A.index);
@@ -923,10 +824,4 @@ void TGrafika::nacrtaj_duz(
 	// No triangle obscures PQ.
 	duz(pScr.x, pScr.y, qScr.x, qScr.y);
 }
-
-
-
-
-
-
 
