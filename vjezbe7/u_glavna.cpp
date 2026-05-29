@@ -233,27 +233,19 @@ void __fastcall TfrmGlavna::act2DTestExecute(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+const float PI = 3.1415926;
+
 void __fastcall TfrmGlavna::actRotirajLijevoExecute(TObject *Sender)
 {
-	// Grafika1->podesi(Grafika1->getAlfa2D()-5, 1.0, 1.0);
-	// act2DTest->Execute();
-	// Grafika1->podesi(Grafika1->getAlfa2D()-1, 100, 100);
-	// ShowMessage(FloatToStr(Grafika1->getAlfa2D()));
-	Grafika1->e_theta -= 0.05;
-	actUcitajIzFajla->Execute();
-	// act3DGraf->Execute();
+	Grafika1->e_theta -= 1.0 * PI / 180.0;
+	Grafika1->nacrtaj_objekat();
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TfrmGlavna::actRotirajDesnoExecute(TObject *Sender)
 {
-//	Grafika1->podesi(Grafika1->getAlfa2D()+5, 1.0, 1.0);
-//	act2DTest->Execute();
-	Grafika1->podesi(Grafika1->getAlfa2D()+1, 100, 100);
-	// ShowMessage(FloatToStr(Grafika1->getAlfa2D()));
-	Grafika1->e_theta += 0.05;
-	// act3DGraf->Execute();
-	actUcitajIzFajla->Execute();
+	Grafika1->e_theta += 1.0 * PI / 180.0;
+	Grafika1->nacrtaj_objekat();
 }
 //---------------------------------------------------------------------------
 
@@ -335,7 +327,36 @@ void __fastcall TfrmGlavna::actUcitajIzFajlaExecute(TObject *Sender)
 		Grafika1->poligon(tacke);
 	}
 	*/
-    Grafika1->nacrtaj(obj);
+	Grafika1->postavi_objekat(obj);
+    Grafika1->nacrtaj_objekat();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmGlavna::actRotirajGoreExecute(TObject *Sender)
+{
+	Grafika1->e_phi -= 1.0 * PI / 180.0;
+	Grafika1->nacrtaj_objekat();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmGlavna::actRotirajDoljeExecute(TObject *Sender)
+{
+	Grafika1->e_phi += 1.0 * PI / 180.0;
+	Grafika1->nacrtaj_objekat();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmGlavna::actUdaljiExecute(TObject *Sender)
+{
+	Grafika1->e_rho *= 1.025;
+	Grafika1->nacrtaj_objekat();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TfrmGlavna::actPribliziExecute(TObject *Sender)
+{
+	Grafika1->e_rho /= 1.025;
+	Grafika1->nacrtaj_objekat();
 }
 //---------------------------------------------------------------------------
 

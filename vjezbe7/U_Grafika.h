@@ -144,12 +144,19 @@ private:
 	float e_v21, e_v22, e_v23;
 	float e_v32, e_v33, e_v43;
 
-	float e_rho, e_rho_min, e_rho_max;
+	float e_rho_min, e_rho_max;
 	float e_d;
 
+	float l_vel;
+
+    bool l_podesi_dimenzije_ekrana;
+
 	void l_napravi_skup_duzi(Objekat& obj);
+    void l_napravi_skup_poligona(Objekat& obj);
 	void l_init_persp();
 	void l_saznaj_koordinate();
+	void l_saznaj_abch_za_poligone();
+    void l_trianguliraj();
 
 	void nacrtaj_duz(
 		Logicka3DTacka p, Logicka3DTacka q,
@@ -158,9 +165,10 @@ private:
 
 public:
 	// privremeno
-	float e_theta, e_phi;
+	float e_rho, e_theta, e_phi;
 
-	void nacrtaj(Objekat& obj);
+	void postavi_objekat(Objekat& obj);
+    void nacrtaj_objekat();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

@@ -65,6 +65,10 @@ __published:	// IDE-managed Components
 	TAction *actUcitajIzFajla;
 	TMenuItem *N2;
 	TMenuItem *Uitajizfajla1;
+	TAction *actRotirajGore;
+	TAction *actRotirajDolje;
+	TAction *actPriblizi;
+	TAction *actUdalji;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -81,6 +85,10 @@ __published:	// IDE-managed Components
 	void __fastcall actRotirajDesnoExecute(TObject *Sender);
 	void __fastcall act3DGrafExecute(TObject *Sender);
 	void __fastcall actUcitajIzFajlaExecute(TObject *Sender);
+	void __fastcall actRotirajGoreExecute(TObject *Sender);
+	void __fastcall actRotirajDoljeExecute(TObject *Sender);
+	void __fastcall actUdaljiExecute(TObject *Sender);
+	void __fastcall actPribliziExecute(TObject *Sender);
 private:	// User declarations
 	int broj_cvorova;
 

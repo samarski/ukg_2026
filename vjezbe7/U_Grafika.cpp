@@ -459,26 +459,11 @@ void TGrafika::poligon(std::vector<Logicka3DTacka>& tacke) {
 
 }
 
-void TGrafika::nacrtaj(Objekat& obj) {
-	// ako je lista poligona prazna vrati se
-
+void TGrafika::postavi_objekat(Objekat& obj) {
 	// preuzmi tacke, izracunaj eye koordinate i projekcije na ekran
 	float vel;
 	Logicka3DTacka centar;
 	obj.saznaj_velicinu_i_centar(vel, centar);
-	// postavljamo defaultnu udaljenost
-
-	/*
-	l_tacke.clear();
-	for (auto T: obj.getVrhovi()) {
-		if (T.index > l_tacke.size()) {
-			for (int i = l_tacke.size(); i <= T.index; i++) {
-				l_tacke.push_back(Logicka3DTacka(0,0,0,0));
-			}
-		}
-		l_tacke[T.index] = T;
-	}
-	*/
 
 	// kopiranje tacaka
 	l_tacke.clear();
@@ -492,96 +477,51 @@ void TGrafika::nacrtaj(Objekat& obj) {
 		l_tacke[T.index] = T;
 	}
 
-
+    // centriraj objekat (u smislu apsolutnih koordinata)
 	for (int i = 0; i < l_tacke.size(); i++) {
 		l_tacke[i].x -= centar.x;
 		l_tacke[i].y -= centar.y;
 		l_tacke[i].z -= centar.z;
 	}
 
+    // trebace nam kasnije
+    l_vel = vel;
+
+	// postavljamo defaultnu udaljenost
 	e_rho = 2 * vel;
 	e_rho_min = 0.6 * e_rho;
 	e_rho_max = 1000 * e_rho_min;
+
 	// inicijalne vrijednosti za e_theta i e_phi date u konstruktoru
-
-	l_init_persp();
-
-	l_saznaj_koordinate();
-
-    obrisi();
 
 	// napravi skup duzi
 	l_napravi_skup_duzi(obj);
 
-	// napravi poligone na osnovu definicije objekta
-	l_poligoni.clear();
-	for (auto& p: obj.getPoligoni()) {
-		std::vector<Logicka3DTacka> tacke;
-		for (auto idx: p) {
-			auto t = l_tacke[idx];
-			// t.index = idx;
-			tacke.push_back(t);
-		}
-		auto poligon = Poligon(tacke);
+	// napravi skup poligona
+	l_napravi_skup_poligona(obj);
 
-		// trebace nam koeficijenti za svaki poligon - plohu
-		// poligon.izracunaj_koeficijente();
-		{
-			float koef_a, koef_b, koef_c, h;
+    // zelimo da se prilikom prvog crtanja podese koordinate ekrana
+	l_podesi_dimenzije_ekrana = true;
+}
 
-			if (poligon.broj_vrhova() < 3) {
-				koef_a = koef_b = koef_c = h = 0.0;
-			}
-			else {
-				auto poltacke = poligon.getTacke();
-				auto A = l_o_tacke[poltacke[0].index],
-					 B = l_o_tacke[poltacke[1].index],
-					 C = l_o_tacke[poltacke[2].index];
+void TGrafika::nacrtaj_objekat() {
+	// ako je lista poligona prazna vrati se
+    // TODO:
 
-				float u1 = B.x - A.x;
-				float u2 = B.y - A.y;
-				float u3 = B.z - A.z;
-				float v1 = C.x - A.x;
-				float v2 = C.y - A.y;
-				float v3 = C.z - A.z;
+	// izracunaj matricu transformacije
+	l_init_persp();
 
-				auto a = u2 * v3 - u3 * v2;
-				auto b = u3 * v1 - u1 * v3;
-				auto c = u1 * v2 - u2 * v1;
-				auto norma = std::sqrt(a * a + b * b + c * c);
+	// saznaj ocne i ekranske koordinate
+	l_saznaj_koordinate();
 
-				koef_a = a/norma;
-				koef_b = b/norma;
-				koef_c = c/norma;
-				h = koef_a * A.x + koef_b * A.y + koef_c * A.z;
-			}
-			poligon.postaviKoefABCh(koef_a, koef_b, koef_c, h);
-		}
+    // obrisi ekran
+	obrisi();
 
-		l_poligoni.push_back(poligon);
-	}
+	// odredi koeficijente a, b, c, h za poligone (povrsi)
+	l_saznaj_abch_za_poligone();
 
-	// N.B. h_granica je negativan (veoma mali) broj relativno u odnosu na
-	// velicinu
-	auto h_granica = -1e-6 * vel;
-
-	l_broj_trouglova = 0;
-	l_tr.clear(); // lista trouglova
-	l_refpol.clear(); // referenca na poligon kojem dati trougao pripada
-
-	auto pol_idx = 0;
-	for (auto& p: l_poligoni) {
-		if ((p.broj_vrhova() > 2) && (p.getH() <= h_granica)) {
-			p.trianguliraj();
-
-			for (auto& t: p.getTrouglovi()) {
-				l_tr.push_back(t);
-				l_refpol.push_back(pol_idx);
-			}
-		}
-		pol_idx++;
-	}
-	l_broj_trouglova = l_tr.size();
+    // uradi triangulaciju kompletnog objekta
+	l_trianguliraj();
 
 	for (const auto& par: l_duzi) {
 		for (auto& idx: par.second) {
@@ -590,6 +530,7 @@ void TGrafika::nacrtaj(Objekat& obj) {
 		}
 	}
 }
+
 
 void TGrafika::l_init_persp() {
 	float costh = std::cos(e_theta);
@@ -632,21 +573,84 @@ void TGrafika::l_saznaj_koordinate() {
 			if (yScr > yScrMax) yScrMax = yScr;
 		}
 	}
-	float rangeX = xScrMax - xScrMin, rangeY = yScrMax - yScrMin;
 
-	e_d = 0.95 * std::min(this->Width / rangeX, this->Height / rangeY);
+	if (l_podesi_dimenzije_ekrana) {
+		float rangeX = xScrMax - xScrMin, rangeY = yScrMax - yScrMin;
 
-	auto centar_x = e_d * (xScrMin + xScrMax) / 2;
-	auto centar_y = e_d * (yScrMin + yScrMax) / 2;
-	postavi_centar(this->Width/2 - centar_x, this->Height/2 + centar_y);
+		e_d = 0.95 * std::min(this->Width / rangeX, this->Height / rangeY);
+
+		auto centar_x = e_d * (xScrMin + xScrMax) / 2;
+		auto centar_y = e_d * (yScrMin + yScrMax) / 2;
+		postavi_centar(this->Width/2 - centar_x, this->Height/2 + centar_y);
+
+		// jednom kada smo podesili, tipicno ne korigujemo naknadno
+		l_podesi_dimenzije_ekrana = false;
+	}
 
 	for (int i = 0; i < l_e_tacke.size(); i++) {
 		l_e_tacke[i].x *= e_d;
 		l_e_tacke[i].y *= e_d;
 	}
-	// return d * Math.max(rangeX, rangeY);
 }
 
+
+void TGrafika::l_saznaj_abch_za_poligone() {
+	for (auto& poligon: l_poligoni) {
+		float koef_a, koef_b, koef_c, h;
+
+		if (poligon.broj_vrhova() < 3) {
+			koef_a = koef_b = koef_c = h = 0.0;
+		}
+		else {
+			auto poltacke = poligon.getTacke();
+			auto A = l_o_tacke[poltacke[0].index],
+				 B = l_o_tacke[poltacke[1].index],
+				 C = l_o_tacke[poltacke[2].index];
+
+			float u1 = B.x - A.x;
+			float u2 = B.y - A.y;
+			float u3 = B.z - A.z;
+			float v1 = C.x - A.x;
+			float v2 = C.y - A.y;
+			float v3 = C.z - A.z;
+
+			auto a = u2 * v3 - u3 * v2;
+			auto b = u3 * v1 - u1 * v3;
+			auto c = u1 * v2 - u2 * v1;
+			auto norma = std::sqrt(a * a + b * b + c * c);
+
+			koef_a = a/norma;
+			koef_b = b/norma;
+			koef_c = c/norma;
+			h = koef_a * A.x + koef_b * A.y + koef_c * A.z;
+		}
+		poligon.postaviKoefABCh(koef_a, koef_b, koef_c, h);
+	}
+}
+
+
+void TGrafika::l_trianguliraj() {
+	// N.B. h_granica je negativan (veoma mali) broj relativno u odnosu na
+	// velicinu
+	auto h_granica = -1e-6 * l_vel;
+
+	l_tr.clear(); // lista trouglova
+	l_refpol.clear(); // referenca na poligon kojem dati trougao pripada
+
+	auto pol_idx = 0;
+	for (auto& p: l_poligoni) {
+		if ((p.broj_vrhova() > 2) && (p.getH() <= h_granica)) {
+			p.trianguliraj();
+
+			for (auto& t: p.getTrouglovi()) {
+				l_tr.push_back(t);
+				l_refpol.push_back(pol_idx);
+			}
+		}
+		pol_idx++;
+	}
+	l_broj_trouglova = l_tr.size();
+}
 
 void TGrafika::l_napravi_skup_duzi(Objekat& obj) {
 	// nakon izvrsavanja, l_duzi sadrzi za svaki vrh M
@@ -673,6 +677,22 @@ void TGrafika::l_napravi_skup_duzi(Objekat& obj) {
 	}
 }
 
+
+void TGrafika::l_napravi_skup_poligona(Objekat& obj) {
+	// napravi poligone na osnovu definicije objekta
+	l_poligoni.clear();
+
+	for (auto& p: obj.getPoligoni()) {
+		std::vector<Logicka3DTacka> tacke;
+		for (auto idx: p) {
+			auto t = l_tacke[idx];
+			tacke.push_back(t);
+		}
+		auto poligon = Poligon(tacke);
+
+		l_poligoni.push_back(poligon);
+	}
+}
 
 
 void TGrafika::nacrtaj_duz(
