@@ -328,7 +328,8 @@ void __fastcall TfrmGlavna::actUcitajIzFajlaExecute(TObject *Sender)
 	}
 	*/
 	Grafika1->postavi_objekat(obj);
-    Grafika1->nacrtaj_objekat();
+	Grafika1->nacrtaj_objekat();
+	// Grafika1->oboji_objekat();
 }
 //---------------------------------------------------------------------------
 

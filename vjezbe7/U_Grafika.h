@@ -163,12 +163,16 @@ private:
 		LogickaTacka pScr, LogickaTacka qScr,
 		int iP, int iQ, int iStart);
 
+private:
+    TColor p_vrati_boju(const int idx);
+
 public:
 	// privremeno
 	float e_rho, e_theta, e_phi;
 
 	void postavi_objekat(Objekat& obj);
-    void nacrtaj_objekat();
+	void nacrtaj_objekat();
+    void oboji_objekat();
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TGrafika *Grafika;

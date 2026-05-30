@@ -21,6 +21,7 @@ object frmGlavna: TfrmGlavna
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 574
     object Panel1: TPanel
       Left = 391
       Top = 0
@@ -29,6 +30,7 @@ object frmGlavna: TfrmGlavna
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 389
       object Button1: TButton
         Left = 64
         Top = 24
@@ -68,6 +70,8 @@ object frmGlavna: TfrmGlavna
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitWidth = 574
+    ExplicitHeight = 248
     object pnlKoordinate: TPanel
       Left = 336
       Top = 0
@@ -76,6 +80,8 @@ object frmGlavna: TfrmGlavna
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 334
+      ExplicitHeight = 248
       object DBGrid1: TDBGrid
         Left = 0
         Top = 0
@@ -119,6 +125,8 @@ object frmGlavna: TfrmGlavna
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitWidth = 334
+      ExplicitHeight = 248
       inline Grafika1: TGrafika
         Left = 0
         Top = 0
@@ -126,8 +134,8 @@ object frmGlavna: TfrmGlavna
         Height = 256
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 336
-        ExplicitHeight = 256
+        ExplicitWidth = 334
+        ExplicitHeight = 248
         inherited img: TImage
           Width = 336
           Height = 256

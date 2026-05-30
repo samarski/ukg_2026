@@ -477,12 +477,14 @@ void TGrafika::postavi_objekat(Objekat& obj) {
 		l_tacke[T.index] = T;
 	}
 
-    // centriraj objekat (u smislu apsolutnih koordinata)
+	/*
+	// centriraj objekat (u smislu apsolutnih koordinata)
 	for (int i = 0; i < l_tacke.size(); i++) {
 		l_tacke[i].x -= centar.x;
 		l_tacke[i].y -= centar.y;
 		l_tacke[i].z -= centar.z;
 	}
+    */
 
     // trebace nam kasnije
     l_vel = vel;
@@ -505,8 +507,12 @@ void TGrafika::postavi_objekat(Objekat& obj) {
 }
 
 void TGrafika::nacrtaj_objekat() {
+	// privremeno!
+	oboji_objekat();
+	return;
+
 	// ako je lista poligona prazna vrati se
-    // TODO:
+	// TODO:
 
 	// izracunaj matricu transformacije
 	l_init_persp();
@@ -514,13 +520,13 @@ void TGrafika::nacrtaj_objekat() {
 	// saznaj ocne i ekranske koordinate
 	l_saznaj_koordinate();
 
-    // obrisi ekran
+	// obrisi ekran
 	obrisi();
 
 	// odredi koeficijente a, b, c, h za poligone (povrsi)
 	l_saznaj_abch_za_poligone();
 
-    // uradi triangulaciju kompletnog objekta
+	// uradi triangulaciju kompletnog objekta
 	l_trianguliraj();
 
 	for (const auto& par: l_duzi) {
@@ -643,7 +649,9 @@ void TGrafika::l_trianguliraj() {
 			p.trianguliraj();
 
 			for (auto& t: p.getTrouglovi()) {
+				t.pol_index = pol_idx;
 				l_tr.push_back(t);
+
 				l_refpol.push_back(pol_idx);
 			}
 		}
@@ -845,3 +853,69 @@ void TGrafika::nacrtaj_duz(
 	duz(pScr.x, pScr.y, qScr.x, qScr.y);
 }
 
+
+TColor TGrafika::p_vrati_boju(const int idx) {
+	auto broj = idx % 9;
+	switch (broj) {
+		case 0: return clRed;
+		case 1: return clMaroon;
+		case 2: return clPurple;
+		case 3: return clBlue;
+		case 4: return clAqua;
+		case 5: return clYellow;
+		case 6: return clLime;
+		case 7: return clGreen;
+		case 8: return clGray;
+
+	default:
+		return clBlack;
+	}
+}
+
+void TGrafika::oboji_objekat() {
+	// ako je lista poligona prazna vrati se
+	// TODO:
+
+	// izracunaj matricu transformacije
+	l_init_persp();
+
+	// saznaj ocne i ekranske koordinate
+	l_saznaj_koordinate();
+
+	// obrisi ekran
+	obrisi();
+
+	// odredi koeficijente a, b, c, h za poligone (povrsi)
+	l_saznaj_abch_za_poligone();
+
+	// uradi triangulaciju kompletnog objekta
+	l_trianguliraj();
+
+	// sortiraj trouglove na osnovu z-koordinate
+	auto sortfunc = [this](Logicki3DTrougao& a, Logicki3DTrougao& b) {
+		auto oaa = l_o_tacke[a.A.index];
+		auto oab = l_o_tacke[a.B.index];
+		auto oac = l_o_tacke[a.C.index];
+
+		auto oba = l_o_tacke[b.A.index];
+		auto obb = l_o_tacke[b.B.index];
+		auto obc = l_o_tacke[b.C.index];
+
+		return oaa.z + oab.z + oac.z < oba.z + obb.z + obc.z;
+	};
+
+	std::sort(l_tr.begin(), l_tr.end(), sortfunc);
+
+	// nacrtaj trouglove
+	for (auto& t: l_tr) {
+		auto eta = l_e_tacke[t.A.index];
+		auto etb = l_e_tacke[t.B.index];
+		auto etc = l_e_tacke[t.C.index];
+
+        // za potrebe testiranja:
+		// trougao(eta.x, eta.y, etb.x, etb.y, etc.x, etc.y);
+
+		trougao_u_boji(eta.x, eta.y, etb.x, etb.y, etc.x, etc.y,
+			p_vrati_boju(t.pol_index));
+	}
+}
