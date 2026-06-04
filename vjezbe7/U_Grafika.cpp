@@ -508,8 +508,8 @@ void TGrafika::postavi_objekat(Objekat& obj) {
 
 void TGrafika::nacrtaj_objekat() {
 	// privremeno!
-	oboji_objekat();
-	return;
+	//Boboji_objekat();
+	// return;
 
 	// ako je lista poligona prazna vrati se
 	// TODO:

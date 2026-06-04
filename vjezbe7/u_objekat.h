@@ -18,6 +18,9 @@ public:
 	void saznaj_velicinu_i_centar(float& v, Logicka3DTacka& centar);
 
 	inline std::vector<Logicka3DTacka> getVrhovi() { return vrhovi; }
-    inline std::vector<std::vector<int>> getPoligoni() { return poligoni; }
+	inline std::vector<std::vector<int>> getPoligoni() { return poligoni; }
+
+	void dodaj_vrh(Logicka3DTacka& P);
+	void dodaj_poligon(std::vector<int> pol);
 };
 #endif

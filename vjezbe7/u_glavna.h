@@ -69,6 +69,8 @@ __published:	// IDE-managed Components
 	TAction *actRotirajDolje;
 	TAction *actPriblizi;
 	TAction *actUdalji;
+	TAction *actPrsten;
+	TMenuItem *Prsten1;
 	void __fastcall actTestExecute(TObject *Sender);
 	void __fastcall Grafika1imgMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
@@ -89,6 +91,7 @@ __published:	// IDE-managed Components
 	void __fastcall actRotirajDoljeExecute(TObject *Sender);
 	void __fastcall actUdaljiExecute(TObject *Sender);
 	void __fastcall actPribliziExecute(TObject *Sender);
+	void __fastcall actPrstenExecute(TObject *Sender);
 private:	// User declarations
 	int broj_cvorova;
 

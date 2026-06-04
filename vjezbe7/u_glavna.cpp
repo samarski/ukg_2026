@@ -361,3 +361,132 @@ void __fastcall TfrmGlavna::actPribliziExecute(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TfrmGlavna::actPrstenExecute(TObject *Sender)
+{
+	Objekat obj;
+
+	// kreiramo objekat
+	auto n = 60;
+	const float Pi = 3.1415926;
+
+	auto R = 3.5;
+	auto r = 2.5;
+	auto H = 1.0;
+
+	auto index_tacke = 1;
+
+	for (int i = 0; i < n; i++) {
+		auto ugao = i * 2.0 * Pi / n;
+		auto sljed_ugao = (i+1) * 2.0 * Pi / n;
+
+		auto P1 = Logicka3DTacka(
+			R*std::cos(ugao), R*std::sin(ugao), 0.0,
+			index_tacke++);
+		auto P2 = Logicka3DTacka(
+			R*std::cos(sljed_ugao), R*std::sin(sljed_ugao), 0.0,
+			index_tacke++);
+		auto P3 = Logicka3DTacka(
+			P2.x, P2.y, H, index_tacke++);
+		auto P4 = Logicka3DTacka(
+			P1.x, P1.y, H, index_tacke++);
+
+		obj.dodaj_vrh(P1);
+		obj.dodaj_vrh(P2);
+		obj.dodaj_vrh(P3);
+		obj.dodaj_vrh(P4);
+
+		obj.dodaj_poligon(std::vector<int>{
+			P1.index, P2.index, P3.index, P4.index});
+
+		auto P5 = Logicka3DTacka(
+			r*std::cos(ugao), r*std::sin(ugao), 0.0,
+			index_tacke++);
+		auto P6 = Logicka3DTacka(
+			r*std::cos(sljed_ugao), r*std::sin(sljed_ugao), 0.0,
+			index_tacke++);
+		auto P7 = Logicka3DTacka(
+			P6.x, P6.y, H, index_tacke++);
+		auto P8 = Logicka3DTacka(
+			P5.x, P5.y, H, index_tacke++);
+
+		obj.dodaj_vrh(P5);
+		obj.dodaj_vrh(P6);
+		obj.dodaj_vrh(P7);
+		obj.dodaj_vrh(P8);
+
+		obj.dodaj_poligon(std::vector<int>{
+			P5.index, P8.index, P7.index, P6.index});
+
+		// gornja strana
+		obj.dodaj_poligon(std::vector<int>{
+			P4.index, P3.index, P7.index, P8.index});
+
+		// donja strana
+		obj.dodaj_poligon(std::vector<int>{
+			P1.index, P5.index, P6.index, P2.index});
+	}
+
+
+	// drugi prsten
+
+	for (int i = 0; i < n; i++) {
+		auto ugao = i * 2.0 * Pi / n;
+		auto sljed_ugao = (i+1) * 2.0 * Pi / n;
+
+		auto P1 = Logicka3DTacka(
+			H/2, (R + r)/2 + R*std::cos(ugao), H/2 + R*std::sin(ugao),
+			index_tacke++);
+		auto P2 = Logicka3DTacka(
+			-H/2, P1.y, P1.z,
+			index_tacke++);
+		auto P3 = Logicka3DTacka(
+			-H/2, (R + r)/2 + R*std::cos(sljed_ugao), H/2 + R*std::sin(sljed_ugao),
+			index_tacke++);
+		auto P4 = Logicka3DTacka(
+			H/2, P3.y, P3.z,
+			index_tacke++);
+
+		obj.dodaj_vrh(P1);
+		obj.dodaj_vrh(P2);
+		obj.dodaj_vrh(P3);
+		obj.dodaj_vrh(P4);
+
+		obj.dodaj_poligon(std::vector<int>{
+			P1.index, P2.index, P3.index, P4.index});
+
+
+		auto P5 = Logicka3DTacka(
+			H/2, (R + r)/2 + r*std::cos(ugao), H/2 + r*std::sin(ugao),
+			index_tacke++);
+		auto P6 = Logicka3DTacka(
+			-H/2, P5.y, P5.z,
+			index_tacke++);
+		auto P7 = Logicka3DTacka(
+			-H/2, (R + r)/2 + r*std::cos(sljed_ugao), H/2 + r*std::sin(sljed_ugao),
+			index_tacke++);
+		auto P8 = Logicka3DTacka(
+			H/2, P7.y, P7.z,
+			index_tacke++);
+
+		obj.dodaj_vrh(P5);
+		obj.dodaj_vrh(P6);
+		obj.dodaj_vrh(P7);
+		obj.dodaj_vrh(P8);
+
+		obj.dodaj_poligon(std::vector<int>{
+			P5.index, P8.index, P7.index, P6.index});
+
+		// bocna strana strana
+		obj.dodaj_poligon(std::vector<int>{
+			P1.index, P4.index, P8.index, P5.index});
+
+		// bocna strana
+		obj.dodaj_poligon(std::vector<int>{
+			P2.index, P6.index, P7.index, P3.index});
+	}
+
+	Grafika1->postavi_objekat(obj);
+	Grafika1->nacrtaj_objekat();
+}
+//---------------------------------------------------------------------------
+

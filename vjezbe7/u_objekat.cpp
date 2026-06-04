@@ -55,8 +55,11 @@ bool Objekat::procitaj(String fileName) {
 }
 
 void Objekat::saznaj_velicinu_i_centar(float& v, Logicka3DTacka& centar) {
-	float x_max, y_max, z_max = -1e30;
-	float x_min, y_min, z_min = +1e30;
+	float x_max, y_max, z_max;
+	float x_min, y_min, z_min;
+
+	x_max = y_max = z_max = -1e30;
+	x_min = y_min = z_min = +1e30;
 
 	for (int i = 0; i < vrhovi.size(); i++) {
         auto T = vrhovi[i];
@@ -86,3 +89,13 @@ void Objekat::saznaj_velicinu_i_centar(float& v, Logicka3DTacka& centar) {
 	centar.y = (y_min + y_max) / 2.0;
 	centar.z = (z_min + z_max) / 2.0;
 }
+
+
+void Objekat::dodaj_vrh(Logicka3DTacka& P) {
+	vrhovi.push_back(P);
+}
+
+void Objekat::dodaj_poligon(std::vector<int> pol) {
+    poligoni.push_back(pol);
+}
+

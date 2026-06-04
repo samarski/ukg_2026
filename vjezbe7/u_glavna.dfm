@@ -234,6 +234,11 @@ object frmGlavna: TfrmGlavna
       ShortCut = 16457
       OnExecute = actUdaljiExecute
     end
+    object actPrsten: TAction
+      Category = '2D'
+      Caption = 'Prsten'
+      OnExecute = actPrstenExecute
+    end
   end
   object cdsTacke: TClientDataSet
     Aggregates = <>
@@ -314,6 +319,9 @@ object frmGlavna: TfrmGlavna
       end
       object Uitajizfajla1: TMenuItem
         Action = actUcitajIzFajla
+      end
+      object Prsten1: TMenuItem
+        Action = actPrsten
       end
     end
   end
